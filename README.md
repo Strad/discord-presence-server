@@ -9,44 +9,44 @@ The WebSocket server runs on port `6969`. Here is an example of connecting using
 ```javascript
 // See for payload information https://discord.com/developers/docs/rich-presence/how-to#updating-presence-update-presence-payload-fields
 
-const ws = new WebSocket("ws://localhost:6969");
+const ws = new WebSocket('ws://localhost:6969');
 
-ws.addEventListener("open", () => {
-	console.log("Connected to Discord Presence Server");
+ws.addEventListener('open', () => {
+  console.log('Connected to Discord Presence Server');
 
-	const start = Date.now();
+  const start = Date.now();
 
-	const doUpdate = setInterval(() => {
-		ws.send(
-			JSON.stringify({
-				// Client ID of your application (from Discord developer portal)
-				clientId: "00000000000000000000",
-				presence: {
-					details: "Some text",
-					state: "Some more text",
-					largeImageKey: "Asset key, from your Discord developer portal",
-					largeImageText: "Text which shows when hovering over the image",
-					startTimestamp: start,
-					// endTimestamp: "",
-					buttons: [
-						{
-							label: "A button label",
-							url: "https://google.co.uk",
-						},
-					],
-				},
-			})
-		);
-	}, 2000);
+  const doUpdate = setInterval(() => {
+    ws.send(
+      JSON.stringify({
+        // Client ID of your application (from Discord developer portal)
+        clientId: '00000000000000000000',
+        presence: {
+          details: 'Some text',
+          state: 'Some more text',
+          largeImageKey: 'Asset key, from your Discord developer portal',
+          largeImageText: 'Text which shows when hovering over the image',
+          startTimestamp: start,
+          // endTimestamp: "",
+          buttons: [
+            {
+              label: 'A button label',
+              url: 'https://google.co.uk',
+            },
+          ],
+        },
+      }),
+    );
+  }, 2000);
 
-	setTimeout(() => {
-		clearInterval(doUpdate);
-		ws.send(
-			JSON.stringify({
-				clientId: "0000000000000000000",
-				clearActivity: true,
-			})
-		);
-	}, 20000);
+  setTimeout(() => {
+    clearInterval(doUpdate);
+    ws.send(
+      JSON.stringify({
+        clientId: '0000000000000000000',
+        clearActivity: true,
+      }),
+    );
+  }, 20000);
 });
 ```
