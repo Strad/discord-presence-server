@@ -1,4 +1,4 @@
-# Discord Rice Presence Server
+# Discord Rich Presence Server
 
 A re-write of the server component of this project https://github.com/lolamtisch/Discord-RPC-Extension/tree/master/Server
 
