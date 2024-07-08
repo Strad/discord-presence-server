@@ -41,7 +41,9 @@ const updateMessageSchema = z.object({
 const server = new WebSocket.Server({ port: 6969 });
 
 server.on('connection', (socket) => {
-	socket.on('open', () => console.log('Client connected to RPC'));
+	socket.on('open', () =>
+		console.log('Client connected to Discord Presence Server'),
+	);
 
 	socket.on('message', async (msg) => {
 		try {

@@ -1,12 +1,16 @@
 import { Client, SetActivity } from '@xhayper/discord-rpc';
+import { EventEmitter } from 'node:events';
 
 const TIME_TILL_ACTIVITY_CLEAR = 10000;
 
-class DiscordClientManager {
+class DiscordClientManager extends EventEmitter {
 	clientMap: Map<string, Client>;
 	lastActivityMap: Map<string, number>;
+	private isUpdating = false;
 
 	constructor() {
+		super();
+
 		this.clientMap = new Map();
 		this.lastActivityMap = new Map();
 		process.on('exit', () =>
@@ -50,6 +54,11 @@ class DiscordClientManager {
 		);
 		await client.user?.setActivity(activity);
 
+		if (!this.isUpdating) {
+			this.isUpdating = true;
+			this.emit('connected');
+		}
+
 		this.lastActivityMap.set(clientId, Date.now());
 
 		setTimeout(() => {
@@ -57,6 +66,9 @@ class DiscordClientManager {
 
 			if (Date.now() - lastUpdate > TIME_TILL_ACTIVITY_CLEAR) {
 				this.clearActivity(clientId);
+
+				this.emit('disconnected');
+				this.isUpdating = false;
 			}
 		}, TIME_TILL_ACTIVITY_CLEAR);
 	}
