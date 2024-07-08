@@ -43,7 +43,7 @@ const server = new WebSocket.Server({ port: 6969 });
 server.on('connection', (socket) => {
 	socket.on('open', () => console.log('Client connected to RPC'));
 
-	socket.on('message', (msg) => {
+	socket.on('message', async (msg) => {
 		try {
 			const message = JSON.parse(msg.toString());
 			const payload = updateMessageSchema.parse(message);
@@ -56,7 +56,7 @@ server.on('connection', (socket) => {
 				return;
 			}
 
-			discordClientManager.setActivity(
+			await discordClientManager.setActivity(
 				payload.presence ?? {},
 				payload.clientId,
 			);

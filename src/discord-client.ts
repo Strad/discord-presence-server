@@ -1,16 +1,12 @@
 import { Client, SetActivity } from '@xhayper/discord-rpc';
-import { EventEmitter } from 'node:events';
 
 const TIME_TILL_ACTIVITY_CLEAR = 10000;
 
-class DiscordClientManager extends EventEmitter {
+class DiscordClientManager {
 	clientMap: Map<string, Client>;
 	lastActivityMap: Map<string, number>;
-	private isUpdating = false;
 
 	constructor() {
-		super();
-
 		this.clientMap = new Map();
 		this.lastActivityMap = new Map();
 		process.on('exit', () =>
@@ -27,19 +23,17 @@ class DiscordClientManager extends EventEmitter {
 		client = new Client({ clientId });
 		this.clientMap.set(clientId, client);
 
-		const reconnection = async () => {
-			if (client.isConnected) {
-				await this.disconnect(client);
-			}
+		console.log('Connecting to Discord client');
 
-			client.once('disconnected', reconnection);
-			client.once('ERROR', reconnection);
-
-			console.log('Connecting to Discord client');
+		try {
 			await client.connect();
-		};
+		} catch (error) {
+			console.error(
+				'Failed to connect to Discord IPC socket, will wait for next update for reattempt: ',
+				error,
+			);
+		}
 
-		await reconnection();
 		return client;
 	}
 
@@ -56,37 +50,37 @@ class DiscordClientManager extends EventEmitter {
 		);
 		await client.user?.setActivity(activity);
 
-		if (!this.isUpdating) {
-			this.isUpdating = true;
-			this.emit('connected');
-		}
-
 		this.lastActivityMap.set(clientId, Date.now());
 
 		setTimeout(() => {
 			const lastUpdate = this.lastActivityMap.get(clientId) ?? 0;
 
 			if (Date.now() - lastUpdate > TIME_TILL_ACTIVITY_CLEAR) {
-				this.emit('disconnected');
-				this.isUpdating = false;
 				this.clearActivity(clientId);
 			}
 		}, TIME_TILL_ACTIVITY_CLEAR);
 	}
 
-	async clearActivity(clientId: string) {
+	clearActivity(clientId: string) {
 		const client = this.clientMap.get(clientId);
-		if (client) {
+		if (client && client.user) {
 			console.log(`Clearing activity on clientId ${clientId}`);
-			await client.user?.clearActivity();
+			client.user
+				.clearActivity()
+				.catch((error) =>
+					console.error('Error trying to clear activity: ', error),
+				);
 		}
 	}
 
 	async disconnect(client: Client) {
 		if (client && client.isConnected) {
 			console.log('Disconnecting from Discord');
-
-			await client.destroy();
+			return client
+				.destroy()
+				.catch((error) =>
+					console.error('Error trying to disconnect from Discord IPC: ', error),
+				);
 		}
 	}
 }
