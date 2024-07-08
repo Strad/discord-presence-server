@@ -1,10 +1,11 @@
 // build.js
 const exe = require('@angablue/exe');
+const pkgJson = require('../package.json');
 
 const build = exe({
 	entry: './out/entry.js',
 	out: './out/Discord Presence Server (Debug).exe',
-	version: '1.0.0',
+	version: pkgJson.version,
 	target: 'latest-win-x64',
 	icon: './build/icon.ico', // Application icons must be in .ico format
 	executionLevel: 'asInvoker',

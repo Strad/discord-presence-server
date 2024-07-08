@@ -1,6 +1,6 @@
 {
 	"name": "discord-presence-ws-server",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"scripts": {
 		"format": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
 		"bundle": "esbuild ./src/entry.ts --platform=node --bundle --outfile=out/entry.js",
