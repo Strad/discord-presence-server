@@ -1,17 +1,19 @@
 {
 	"name": "discord-presence-ws-server",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"scripts": {
 		"format": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
-		"bundle": "esbuild ./src/entry.ts --platform=node --bundle --outfile=out/entry.js",
-		"build-win": "npm run bundle && node ./build/build-win.js"
+		"build": "tsc -p tsconfig.json",
+		"build-win": "ncc build ./src/entry.ts -o ./dist-win && node ./build/build-win.js"
 	},
 	"devDependencies": {
 		"@angablue/exe": "^2.1.3",
 		"@types/ws": "^8.5.10",
+		"@vercel/ncc": "^0.38.1",
 		"create-nodew-exe": "^1.0.10",
 		"prettier": "^3.3.2",
-		"tsx": "^4.16.2"
+		"tsx": "^4.16.2",
+		"typescript": "^5.5.4"
 	},
 	"dependencies": {
 		"@xhayper/discord-rpc": "^1.1.2",
