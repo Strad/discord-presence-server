@@ -21,16 +21,17 @@ By default, the WebSocket server runs on port `6969`.
 
 #### Presence payload structure
 
-| field            | type   | description                                                                  | example                                                        |
-| ---------------- | ------ | ---------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| `state`          | string | the user's current party status                                              | `"Looking to Play"`, `"Playing Solo"`, `"In a Group"`          |
-| `details`        | string | what the player is currently doing                                           | `"Competitive - Captain's Mode"`, `"In Queue", "Unranked PvP"` |
-| `startTimestamp` | number | epoch milliseconds of activity start - including will show time as "elapsed" | `1707138793000` (Mon Feb 05 2024 13:13:13.000)                 |
-| `endTimestamp`   | number | epoch milliseconds of activity end - including will show time as "remaining" | `1707142393000` (Mon Feb 05 2024 14:13:13.000)                 |
-| `largeImageKey`  | string | name of the uploaded image for the large profile artwork                     | `"default"`                                                    |
-| `largeImageText` | string | tooltip for the largeImageKey                                                | `"Blade's Edge Arena"`, `"Numbani"`, `"Danger Zone"`           |
-| `smallImageKey`  | string | name of the uploaded image for the small profile artwork                     | `"rogue"`                                                      |
-| `smallImageText` | string | tooltip for the smallImageKey                                                | `"Rogue - Level 100"`                                          |
+| field            | type               | description                                                                  | example                                                        |
+| ---------------- | ------------------ | ---------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `state`          | string             | the user's current party status                                              | `"Looking to Play"`, `"Playing Solo"`, `"In a Group"`          |
+| `details`        | string             | what the player is currently doing                                           | `"Competitive - Captain's Mode"`, `"In Queue", "Unranked PvP"` |
+| `startTimestamp` | number             | epoch milliseconds of activity start - including will show time as "elapsed" | `1707138793000` (Mon Feb 05 2024 13:13:13.000)                 |
+| `endTimestamp`   | number             | epoch milliseconds of activity end - including will show time as "remaining" | `1707142393000` (Mon Feb 05 2024 14:13:13.000)                 |
+| `largeImageKey`  | string             | name of the uploaded image for the large profile artwork                     | `"default"`                                                    |
+| `largeImageText` | string             | tooltip for the largeImageKey                                                | `"Blade's Edge Arena"`, `"Numbani"`, `"Danger Zone"`           |
+| `smallImageKey`  | string             | name of the uploaded image for the small profile artwork                     | `"rogue"`                                                      |
+| `smallImageText` | string             | tooltip for the smallImageKey                                                | `"Rogue - Level 100"`                                          |
+| `buttons`        | array of `buttons` | Custom buttons shown in the Rich Presence (max 2)                            | `[{ label: "Button Label", url: "https://google.com"}]`        |
 
 ### Example
 
