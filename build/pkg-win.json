@@ -1,5 +1,0 @@
-{
-	"pkg": {
-		"assets": ["./../dist-win/traybin/*release.exe"]
-	}
-}
