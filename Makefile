@@ -1,4 +1,4 @@
-build: build_win build_linux
+build: build_win build_linux build_darwin
 
 build_win:
 	@echo "Building Windows targets"
@@ -9,3 +9,7 @@ build_win:
 build_linux:
 	@echo "Building Linux targets"
 	GOOS=linux GO111MODULE=on go build -o bin/discord-presence-server-linux-amd64
+
+build_darwin:
+	@echo "Building macOS targets"
+	GOOS=darwin GOARCH=arm64 GO111MODULE=on go build -o bin/discord-presence-server-darwin-arm64

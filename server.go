@@ -159,20 +159,3 @@ func ServeWs() {
 	log.Printf("Starting websocket server")
 	log.Fatal(http.ListenAndServe(fmt.Sprintf("localhost:%s", *port), nil))
 }
-
-func UpdateTrayStatus() {
-	log.Println("Ready to update tray")
-	for {
-		update := <-rpcClient.Updates
-		switch update {
-		case "connected":
-			go SetTrayIconConnected()
-		case "cleared":
-			go SetTrayIconConnected()
-		case "disconnected":
-			go SetTrayIconDisconnected()
-		case "updated":
-			go SetTrayIconActive()
-		}
-	}
-}
